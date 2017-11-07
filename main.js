@@ -1,3 +1,7 @@
+// -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
+// food item constructor and prototype
+//  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
+
 var FoodItem = function(name, calories, vegan, glutenFree) {
   this.name = name; // string
   this.calories = calories; // number
@@ -6,16 +10,19 @@ var FoodItem = function(name, calories, vegan, glutenFree) {
 };
 
 FoodItem.prototype.stringify = function() {
+  // set the object "this" equal to "that" for access in nested functions
   var that = this;
+  // convert boolean statements to english statements
   var trueFalseVegan = function() {if (that.vegan) {return "is"} else {return "is not"}};
   var trueFalseGluten = function() {if (that.glutenFree) {return "is"} else {return "is not"}};
-  var itemString = `${this.name} has ${this.calories} calories, ${trueFalseVegan()} vegan, and ${trueFalseGluten()} gluten free.`;
+  var itemString = `a ${this.name} containing ${this.calories} calories, that ${trueFalseVegan()} vegan, and ${trueFalseGluten()} gluten free`;
   return itemString;
 };
 
 
-
-
+//  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
+// plate constructor and prototype
+//  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
 
 var Plate = function(name, description, price, ingredients){
   this.name = name;
@@ -25,23 +32,49 @@ var Plate = function(name, description, price, ingredients){
 };
 
 Plate.prototype.stringify = function() {
+  // set the object "this" equal to "that" for access in nested functions
   var that = this;
-  var loopString = [];
-  var loop = function() {
+  var loopArray = [];
+  // loop over array of ingredients in the object passed in, pushed into an array that will be joined for finished string
+  function loop() {
     for (var ingredient of that.ingredients){
-      loopString.push(ingredient.stringify());
+      loopArray.push(ingredient.stringify());
     }
   };
-  var plateString = `$(this.name) costs $(this.price) and contains`;
-  return plateString;
+  loop();
+  var loopString = loopArray.join(', ')
+  var plateString = `${this.name} costs ${this.price} dollars and has ${loopString}`
+  return plateString
 }
 
-
+//  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
+// menu constructor and prototype
+//  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
 
 var Menu = function(name, plates) {
   this.name = name;
   this.plates = plates;
 };
+
+Menu.prototype.stringify = function() {
+  // set the object "this" equal to "that" for access in nested functions
+  var that = this;
+  var loopArray = [];
+  function loop() {
+    for (var plate of that.plates){
+    loopArray.push(plate.stringify());
+    }
+  }
+  loop();
+  var loopString = loopArray.join(', ');
+  var menuString = `The $(Menu.name) has ${loopString} available`
+  return menuString
+};
+
+
+//  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
+// Restaurant constructor and prototype
+//  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
 
 var Restaurant = function(name, description, menu){
   this.name = name;
@@ -100,4 +133,5 @@ var myPlace = new Restaurant("Bob's Burgers", "Okay fine, but I am going to comp
 // console.log(myPlace)
 // console.log(swissBurger)
 
-console.log(swissBurger.stringify());
+// console.log(swissBurger.stringify());
+console.log(lunchMenu.stringify());
