@@ -42,9 +42,9 @@ Plate.prototype.stringify = function() {
     }
   };
   loop();
-  var loopString = loopArray.join(', ')
-  var plateString = `${this.name} costs ${this.price} dollars and has ${loopString}`
-  return plateString
+  var loopString = loopArray.join(', ');
+  var plateString = `${this.name} that costs ${this.price} dollars, and comes with ${loopString}`;
+  return plateString;
 }
 
 //  -==-=--=-=-=-=-=-=-=--==-=--==-=-=-=-=-
@@ -67,8 +67,8 @@ Menu.prototype.stringify = function() {
   }
   loop();
   var loopString = loopArray.join(', ');
-  var menuString = `The $(Menu.name) has ${loopString} available`
-  return menuString
+  var menuString = `The ${this.name} with a ${loopString}`;
+  return menuString;
 };
 
 
@@ -81,6 +81,28 @@ var Restaurant = function(name, description, menu){
   this.description = description;
   this.menu = menu;
 }
+
+Restaurant.prototype.stringify = function() {
+  // set the object "this" equal to "that" for access in nested functions
+  var that = this;
+  var loopArray = [];
+  function loop() {
+    for (var menus of that.menu) {
+      loopArray.push(menus.stringify());
+    }
+  }
+  loop();
+  var loopString = loopArray.join(', ');
+  var menuString = `My restaurant ${this.name} has a motto "${this.description}. We serve ${loopString}"`;
+  return menuString;
+}
+
+
+
+
+
+
+
 
 // ingredients
 var bacon = new FoodItem('bacon', 100, false, true);
@@ -108,12 +130,12 @@ var nuts = new FoodItem('candied walnut', 8, true, true);
 
 
 // burgers
-var swissBurger = new Plate("Mushroom Swiss Burger", "Beef Burger with swiss, mushroom, and caramelized onions", 10, [bun, beefBurger, swissChz, shrooms, carmo])
-var veggieBurger = new Plate("Veggie Burger", "Vegetarian burger on a gluten free bun")
+var swissBurger = new Plate("Mushroom Swiss Burger", "Beef Burger with swiss, mushroom, and caramelized onions", 10, [bun, beefBurger, swissChz, shrooms, carmo]);
+var veggieBurger = new Plate("Veggie Burger", "Vegetarian burger on a gluten free bun", 6, [veggieBurger, glutenFreeBun, ltop]);
 var footBurger = new Plate("Foot Feta-ish burger", "Comes with feta", 5.95, [bun, beefBurger, ltop, feta]);
 var childBurger = new Plate("The Child Molester", "Comes with candy", 5.95, [bun, beefBurger, candy]);
 var eggBurger = new Plate("Eggers can't be Cheesers", "With Fried Egg and Cheese", 5.95, [bun, beefBurger, egg, americanChz]);
-var christmasBurger = new Plate("Fifth day of Christmas burger", "Comes with five golden rings of onion", 5.95, [bun, beefBurger, onionRing])
+var christmasBurger = new Plate("Fifth day of Christmas burger", "Comes with five golden rings of onion", 5.95, [bun, beefBurger, onionRing]);
 var beetBurger = new Plate("Beets of Burden", "Comes with Beets", 5.95, [bun, beefBurger, beets, blueChz]);
 
 // salads
@@ -134,4 +156,7 @@ var myPlace = new Restaurant("Bob's Burgers", "Okay fine, but I am going to comp
 // console.log(swissBurger)
 
 // console.log(swissBurger.stringify());
-console.log(lunchMenu.stringify());
+
+console.log("-=-=-=-=-=-=-=-=-=-=-=-=-")
+console.log(myPlace.stringify());
+console.log("-=-=-=-=-=-=-=-=-=-=-=-=-")
